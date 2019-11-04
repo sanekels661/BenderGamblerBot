@@ -11,13 +11,8 @@ public class BenderGamblerBot extends TelegramLongPollingCommandBot {
 
     BenderGamblerBot(DefaultBotOptions botOptions) {
         super(BOT_USERNAME);
-//        register(new FirstCommand());
-//        register(new InlineKeyboardMy());
-//        register(new ReplyKeyboardMy());
-    }
-
-    public BenderGamblerBot(String botUsername) {
-        super(botUsername);
+        register(new BlackJack());
+        register(new TakeCard());
     }
 
     @Override
@@ -25,11 +20,6 @@ public class BenderGamblerBot extends TelegramLongPollingCommandBot {
         Message message = update.getMessage();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(message.getChatId());
-//        if (message.getText().equals("hello")) {
-//            sendMessage.setText("hello, Master!");
-//        } else {
-//            sendMessage.setText("something goes wrong(");
-//        }
         sendMessage.setText("hello, take card to start");
         try {
             execute(sendMessage);
