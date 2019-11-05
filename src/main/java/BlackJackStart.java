@@ -10,46 +10,32 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TakeCard extends BotCommand{
+public class BlackJackStart extends BotCommand{
 
-    private static final String commandIdentifier = "take";
-    private static final String description = "take card";
-    public TakeCard() {
+    private static final String commandIdentifier = "jack";
+    private static final String description = "startGameBlackJack";
+    public BlackJackStart() {
         super(commandIdentifier, description);
     }
 
-    private DeckOfCards currentDeck = new DeckOfCards();
-    private ArrayList<DeckOfCards.PartsOfCard> yourHand = new ArrayList<>();
-    private int valueOfHand = 0;
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-
-        DeckOfCards.PartsOfCard currentCard = currentDeck.TakeOneCard();
-        yourHand.add(currentCard);
-        valueOfHand += currentCard.value;
-
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setReplyMarkup(getKeyboard());
-        if (valueOfHand > 17){
-            answer.setText(valueOfHand + "over 17");
-        }else {
-            answer.setText("card added, your points: " + valueOfHand);
-        }
+        answer.setText("game started");
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
-    private  ReplyKeyboardMarkup getKeyboard() {
+    private static ReplyKeyboardMarkup getKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        for (DeckOfCards.PartsOfCard element : yourHand) {
-            keyboardFirstRow.add(element.suit + " " + element.name);
-        }
+        keyboardFirstRow.add("your cards");
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardSecondRow.add("/take card");
         keyboardSecondRow.add("/exit");
@@ -59,4 +45,3 @@ public class TakeCard extends BotCommand{
         return replyKeyboardMarkup;
     }
 }
-

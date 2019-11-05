@@ -17,14 +17,14 @@ public class DeckOfCards {
     ArrayList<PartsOfCard> thisDeck = new ArrayList<>();
 
     int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10};
-    String[] names = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+    String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
     String[] suits = {"Hrt", "Dmn", "Trf", "Spd"};
     //{"♥", "♦", "♣", "♠"};
     DeckOfCards() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
                 assert thisDeck != null;
-                thisDeck.add(new PartsOfCard(values[i], names[j], suits[i]));
+                thisDeck.add(new PartsOfCard(values[j], names[j], suits[i]));
             }
         }
     }

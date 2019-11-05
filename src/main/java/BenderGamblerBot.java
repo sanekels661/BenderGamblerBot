@@ -11,8 +11,8 @@ public class BenderGamblerBot extends TelegramLongPollingCommandBot {
 
     BenderGamblerBot(DefaultBotOptions botOptions) {
         super(BOT_USERNAME);
-        register(new BlackJack());
-        register(new TakeCard());
+        register(new BlackJackStart());
+        register(new TakeCardBlackJack());
     }
 
     @Override
