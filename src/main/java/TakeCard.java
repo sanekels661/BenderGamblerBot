@@ -20,17 +20,22 @@ public class TakeCard extends BotCommand{
 
     private DeckOfCards currentDeck = new DeckOfCards();
     private ArrayList<DeckOfCards.PartsOfCard> yourHand = new ArrayList<>();
-
+    private int valueOfHand = 0;
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
 
         DeckOfCards.PartsOfCard currentCard = currentDeck.TakeOneCard();
         yourHand.add(currentCard);
+        valueOfHand += currentCard.value;
 
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setReplyMarkup(getKeyboard());
-        answer.setText("card added");
+        if (valueOfHand > 17){
+            answer.setText(valueOfHand + "over 17");
+        }else {
+            answer.setText("card added, your points: " + valueOfHand);
+        }
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {

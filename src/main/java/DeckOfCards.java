@@ -18,8 +18,8 @@ public class DeckOfCards {
 
     int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10};
     String[] names = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-    String[] suits = {"♥", "♦", "♣", "♠"};
-
+    String[] suits = {"Hrt", "Dmn", "Trf", "Spd"};
+    //{"♥", "♦", "♣", "♠"};
     DeckOfCards() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {

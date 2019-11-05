@@ -12,8 +12,8 @@ import java.util.List;
 
 public class BlackJack extends BotCommand{
 
-    private static final String commandIdentifier = "startGame";
-    private static final String description = "startGame";
+    private static final String commandIdentifier = "jack";
+    private static final String description = "startGameBlackJack";
     public BlackJack() {
         super(commandIdentifier, description);
     }
