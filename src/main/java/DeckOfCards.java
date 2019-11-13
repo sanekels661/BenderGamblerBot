@@ -16,9 +16,10 @@ public class DeckOfCards {
 
     ArrayList<PartsOfCard> thisDeck = new ArrayList<>();
 
-    int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10};
+    int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
     String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-    String[] suits = {"Hrt", "Dmn", "Trf", "Spd"};
+    //String[] suits = {"%xE2%x99%xA5", new String(Character.toChars(0x1F609)),new String(Character.toChars(0x1F609)), new String(Character.toChars(0x1F609))};
+    String[] suits = {"Hrt", "Dmn", "Clb", "Spd"};
     //{"♥", "♦", "♣", "♠"};
     DeckOfCards() {
         for (int i = 0; i < 4; i++) {

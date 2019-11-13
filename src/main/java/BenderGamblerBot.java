@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class BenderGamblerBot extends TelegramLongPollingCommandBot {
     private static final String BOT_USERNAME = "BenderGamblerBot";
-    private static final String BOT_TOKEN = "937156335:AAGQuM2Vdbvdsofa0Gv0tNfW16sm-RswcM0";
+    private static final String BOT_TOKEN = System.getenv("BOT_TOKEN_CLOSED");
 
     BenderGamblerBot(DefaultBotOptions botOptions) {
         super(BOT_USERNAME);
