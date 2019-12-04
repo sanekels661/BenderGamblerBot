@@ -10,7 +10,7 @@ public class BenderGamblerBot extends TelegramLongPollingCommandBot {
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN_CLOSED");
 
     BenderGamblerBot(DefaultBotOptions botOptions) {
-        super(BOT_USERNAME);
+        super(botOptions, BOT_USERNAME);
         register(new BlackJackStart());
         register(new TakeCardBlackJack());
     }

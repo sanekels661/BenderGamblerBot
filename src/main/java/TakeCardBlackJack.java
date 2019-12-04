@@ -20,26 +20,44 @@ public class TakeCardBlackJack extends BotCommand{
 
     private DeckOfCards currentDeck = new DeckOfCards();
     private ArrayList<DeckOfCards.PartsOfCard> yourHand = new ArrayList<>();
-    private int valueOfHand = 0;
+    private ArrayList<DeckOfCards.PartsOfCard> dilerHand = new ArrayList<>();
+    private int valueOfPlayerHand = 0;
+    private int valueOfDilerHand = 0;
+
+
+//    DeckOfCards.PartsOfCard firstCard = currentDeck.TakeOneCa rd();
+//
+//        yourHand.add(firstCard);
+//    valueOfHand += firstCard.value;
+
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
         if (currentDeck.thisDeck.size() < 26){
             currentDeck = new DeckOfCards();
         }
-        DeckOfCards.PartsOfCard currentCard = currentDeck.TakeOneCard();
-        yourHand.add(currentCard);
-        valueOfHand += currentCard.value;
+        DeckOfCards.PartsOfCard currentCardPlayer = currentDeck.TakeOneCard();
+        DeckOfCards.PartsOfCard currentCardDiler = currentDeck.TakeOneCard();
+        dilerHand.add(currentCardDiler);
+        valueOfDilerHand += currentCardDiler.value;
+        yourHand.add(currentCardPlayer);
+        valueOfPlayerHand += currentCardPlayer.value;
+        String dilerHandString = "";
+        for (DeckOfCards.PartsOfCard element: dilerHand) {
+            dilerHandString += element.suit + " " + element.name + "; ";
+        }
 
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setReplyMarkup(getKeyboard());
-        if (valueOfHand > 21){
-            answer.setText(valueOfHand + "over 21, you lose. new game started");
+
+
+        if (valueOfPlayerHand > 21){
+            answer.setText(valueOfPlayerHand + "over 21, you lose. new game started");
             yourHand.clear();
-            valueOfHand = 0;
+            valueOfPlayerHand = 0;
             currentDeck = new DeckOfCards();
         }else {
-            answer.setText("card added, your points: " + valueOfHand);
+            answer.setText("card added, your points: " + valueOfPlayerHand  + "\n" +"diler cards: ");
         }
         try {
             absSender.execute(answer);
@@ -52,7 +70,7 @@ public class TakeCardBlackJack extends BotCommand{
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        if  (valueOfHand > 21){
+        if  (valueOfPlayerHand > 21){
             keyboard.clear();
             keyboardFirstRow.add("your cards");
         }else {
