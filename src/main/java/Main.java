@@ -16,8 +16,8 @@ public class Main {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-            botOptions.setProxyHost("104.244.77.254");
-            botOptions.setProxyPort(8080);
+            botOptions.setProxyHost("51.158.68.133");
+            botOptions.setProxyPort(8811);
             botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
             telegramBotsApi.registerBot(new BenderGamblerBot(botOptions));
         } catch (TelegramApiException e) {

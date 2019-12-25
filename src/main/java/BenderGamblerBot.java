@@ -5,14 +5,19 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.ArrayList;
+
 public class BenderGamblerBot extends TelegramLongPollingCommandBot {
     private static final String BOT_USERNAME = "BenderGamblerBot";
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN_CLOSED");
-
+    public BlackJackGamers yourHand = new BlackJackGamers();
+    public BlackJackGamers dilerHand = new BlackJackGamers();
+    public DeckOfCards currentDeck = new DeckOfCards();
     BenderGamblerBot(DefaultBotOptions botOptions) {
         super(botOptions, BOT_USERNAME);
-        register(new BlackJackStart());
-        register(new TakeCardBlackJack());
+        register(new BlackJackStart(yourHand, dilerHand, currentDeck));
+        register(new TakeCardBlackJack(yourHand, dilerHand, currentDeck));
+        register(new StopTakeCardBlackJack(yourHand, dilerHand, currentDeck));
     }
 
     @Override
@@ -27,7 +32,6 @@ public class BenderGamblerBot extends TelegramLongPollingCommandBot {
             e.printStackTrace();
         }
     }
-
     @Override
     public String getBotToken() {
         return BOT_TOKEN;

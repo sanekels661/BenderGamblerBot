@@ -10,35 +10,55 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlackJackStart extends BotCommand{
+public class BlackJackStart extends BotCommand {
 
     private static final String commandIdentifier = "jack";
     private static final String description = "startGameBlackJack";
-    public BlackJackStart() {
+    private BlackJackGamers yourHand;
+    private BlackJackGamers dilerHand;
+    private DeckOfCards currentDeck;
+
+    public BlackJackStart(BlackJackGamers yourHand1, BlackJackGamers dilerHand1, DeckOfCards currentDeck1) {
         super(commandIdentifier, description);
+        yourHand = yourHand1;
+        dilerHand = dilerHand1;
+        currentDeck = currentDeck1;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
+        currentDeck = new DeckOfCards();
+        yourHand.addCard(currentDeck.TakeOneCard());
+        yourHand.addCard(currentDeck.TakeOneCard());
+        dilerHand.addCard(currentDeck.TakeOneCard());
+
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setReplyMarkup(getKeyboard());
-        answer.setText("game started");
+        answer.setText("game started \n" + "card added, your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand());
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+
     }
-    private static ReplyKeyboardMarkup getKeyboard() {
+
+    private ReplyKeyboardMarkup getKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add("your cards");
+        for (DeckOfCards.PartsOfCard element : yourHand.AllCards()) {
+            keyboardFirstRow.add(element.suit + " " + element.name);
+        }
+        if (yourHand.intValueOfHand() > 21) {
+            keyboard.clear();
+        }
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardSecondRow.add("/take card");
         keyboardSecondRow.add("/exit");
+        keyboardSecondRow.add("/stop");
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
         replyKeyboardMarkup.setKeyboard(keyboard);

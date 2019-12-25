@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeckOfCards {
 
@@ -14,7 +15,7 @@ public class DeckOfCards {
         }
     }
 
-    ArrayList<PartsOfCard> thisDeck = new ArrayList<>();
+    List<PartsOfCard> thisDeck = new ArrayList<>();
 
     int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
     String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
