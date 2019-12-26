@@ -31,22 +31,32 @@ public class StopTakeCardBlackJack extends BotCommand {
         if (currentDeck.thisDeck.size() < 26) {
             currentDeck = new DeckOfCards();
         }
-        while (dilerHand.intValueOfHand() < 18) {
+        while (dilerHand.intValueOfHand() < 17) {
             dilerHand.addCard(currentDeck.TakeOneCard());
         }
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setReplyMarkup(getKeyboard());
 
-        if (dilerHand.intValueOfHand() > 21 || dilerHand.intValueOfHand() < yourHand.intValueOfHand()) {
-            answer.setText("your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand() + "\n you win!");
+        if (dilerHand.intValueOfHand() == 21 && yourHand.intValueOfHand() != 21) {
+            answer.setText("your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand() +
+                    "\ndealer has blackJack, you lose");
         }
-        if (dilerHand.intValueOfHand() > yourHand.intValueOfHand()) {
+        if (dilerHand.intValueOfHand() == yourHand.intValueOfHand()) {
+            answer.setText("your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand() + "\ndraw");
+        }
+        if (dilerHand.intValueOfHand() > 21 || dilerHand.intValueOfHand() < yourHand.intValueOfHand()) {
+            answer.setText("your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand() + "\nyou win!");
+        }
+        if (dilerHand.intValueOfHand() < yourHand.intValueOfHand() && yourHand.intValueOfHand() == 21) {
+            answer.setText("your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand() +
+                    "\nyou have blackJack, you win!");
+        }
+        if ((dilerHand.intValueOfHand() > yourHand.intValueOfHand() && dilerHand.intValueOfHand() < 22) && dilerHand.intValueOfHand() != 21) {
             answer.setText("your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand() + "\n you lose");
-        } else {
-            answer.setText("your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand());
         }
         dilerHand.clearCards();
+        yourHand.clearCards();
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {
@@ -59,12 +69,8 @@ public class StopTakeCardBlackJack extends BotCommand {
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        if (yourHand.intValueOfHand() > 21) {
-            keyboard.clear();
-        } else {
-            for (DeckOfCards.PartsOfCard element : yourHand.AllCards()) {
-                keyboardFirstRow.add(element.suit + " " + element.name);
-            }
+        for (DeckOfCards.PartsOfCard element : yourHand.AllCards()) {
+            keyboardFirstRow.add(element.suit + " " + element.name);
         }
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardSecondRow.add("/jack");

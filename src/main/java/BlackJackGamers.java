@@ -25,9 +25,10 @@ public class BlackJackGamers {
         for (int i = 0; i < currentHand.size(); i++) {
             valueOfHand += currentHand.get(i).suit + " " + currentHand.get(i).name + "; ";
         }
-        return valueOfHand;
+        return valueOfHand + "points: " + this.intValueOfHand();
     }
-    void clearCards(){
+
+    void clearCards() {
         currentHand.clear();
     }
 }

@@ -35,12 +35,15 @@ public class TakeCardBlackJack extends BotCommand {
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setReplyMarkup(getKeyboard());
-        if (yourHand.intValueOfHand() > 21) {
-            answer.setText(yourHand.intValueOfHand() + "over 21, you lose. new game started");
-            yourHand.clearCards();
-            dilerHand.clearCards();
+        if (yourHand.intValueOfHand() == 21) {
+            answer.setText("your points: " + yourHand.intValueOfHand() + "; blackJack. you win");
             currentDeck = new DeckOfCards();
-        } else {
+        }
+        if (yourHand.intValueOfHand() > 21) {
+            answer.setText(yourHand.intValueOfHand() + " over 21, you lose");
+            currentDeck = new DeckOfCards();
+        }
+        else {
             answer.setText("card added, your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand());
         }
         try {
@@ -59,12 +62,10 @@ public class TakeCardBlackJack extends BotCommand {
         for (DeckOfCards.PartsOfCard element : yourHand.AllCards()) {
             keyboardFirstRow.add(element.suit + " " + element.name);
         }
-        if (yourHand.intValueOfHand() > 21) {
-            keyboard.clear();
+        if (yourHand.intValueOfHand() >= 21) {
             keyboardSecondRow.add("/jack ");
             keyboardSecondRow.add("/exit");
         } else {
-
             keyboardSecondRow.add("/take card");
             keyboardSecondRow.add("/stop");
         }

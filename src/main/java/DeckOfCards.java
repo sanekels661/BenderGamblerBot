@@ -3,7 +3,7 @@ import java.util.List;
 
 public class DeckOfCards {
 
-    public  class PartsOfCard {
+    public class PartsOfCard {
         int value;
         String name;
         String suit;
@@ -16,12 +16,10 @@ public class DeckOfCards {
     }
 
     List<PartsOfCard> thisDeck = new ArrayList<>();
-
     int[] values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
     String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-    //String[] suits = {"%xE2%x99%xA5", new String(Character.toChars(0x1F609)),new String(Character.toChars(0x1F609)), new String(Character.toChars(0x1F609))};
-    String[] suits = {"Hrt", "Dmn", "Clb", "Spd"};
-    //{"♥", "♦", "♣", "♠"};
+    String[] suits = {"\u2665", "\u2666", "\u2663", "\u2660"};
+
     DeckOfCards() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
@@ -30,7 +28,8 @@ public class DeckOfCards {
             }
         }
     }
-    public PartsOfCard TakeOneCard(){
+
+    public PartsOfCard TakeOneCard() {
         int randIndex = (int) (Math.random() * thisDeck.size());
         PartsOfCard current = thisDeck.get(randIndex);
         thisDeck.remove(randIndex);

@@ -28,10 +28,11 @@ public class BlackJackStart extends BotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
         currentDeck = new DeckOfCards();
+        yourHand.clearCards();
+        dilerHand.clearCards();
         yourHand.addCard(currentDeck.TakeOneCard());
         yourHand.addCard(currentDeck.TakeOneCard());
         dilerHand.addCard(currentDeck.TakeOneCard());
-
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setReplyMarkup(getKeyboard());
@@ -41,7 +42,6 @@ public class BlackJackStart extends BotCommand {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
     }
 
     private ReplyKeyboardMarkup getKeyboard() {
