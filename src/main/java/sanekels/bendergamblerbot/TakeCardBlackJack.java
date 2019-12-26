@@ -1,3 +1,5 @@
+package sanekels.bendergamblerbot;
+
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -31,19 +33,17 @@ public class TakeCardBlackJack extends BotCommand {
         if (currentDeck.thisDeck.size() < 26) {
             currentDeck = new DeckOfCards();
         }
-        yourHand.addCard(currentDeck.TakeOneCard());
+        yourHand.addCard(currentDeck.takeOneCard());
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
-        answer.setReplyMarkup(getKeyboard());
+        answer.setReplyMarkup(new UsefulMethods().getKeyboard(commandIdentifier, yourHand));
         if (yourHand.intValueOfHand() == 21) {
-            answer.setText("your points: " + yourHand.intValueOfHand() + "; blackJack. you win");
+            answer.setText(yourHand.intValueOfHand() + " you have blackJack, you win!");
             currentDeck = new DeckOfCards();
-        }
-        if (yourHand.intValueOfHand() > 21) {
+        } else if (yourHand.intValueOfHand() > 21) {
             answer.setText(yourHand.intValueOfHand() + " over 21, you lose");
             currentDeck = new DeckOfCards();
-        }
-        else {
+        } else if (yourHand.intValueOfHand() < 21) {
             answer.setText("card added, your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand());
         }
         try {
@@ -51,28 +51,6 @@ public class TakeCardBlackJack extends BotCommand {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-    }
-
-    private ReplyKeyboardMarkup getKeyboard() {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        for (DeckOfCards.PartsOfCard element : yourHand.AllCards()) {
-            keyboardFirstRow.add(element.suit + " " + element.name);
-        }
-        if (yourHand.intValueOfHand() >= 21) {
-            keyboardSecondRow.add("/jack ");
-            keyboardSecondRow.add("/exit");
-        } else {
-            keyboardSecondRow.add("/take card");
-            keyboardSecondRow.add("/stop");
-        }
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        return replyKeyboardMarkup;
     }
 }
 

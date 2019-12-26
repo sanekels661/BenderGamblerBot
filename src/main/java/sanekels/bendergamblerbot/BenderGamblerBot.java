@@ -1,3 +1,5 @@
+package sanekels.bendergamblerbot;
+
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BenderGamblerBot extends TelegramLongPollingCommandBot {
-    private static final String BOT_USERNAME = "BenderGamblerBot";
+    private static final String BOT_USERNAME = "sanekels.bendergamblerbot.BenderGamblerBot";
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN_CLOSED");
-    public BlackJackGamers yourHand = new BlackJackGamers();
-    public BlackJackGamers dilerHand = new BlackJackGamers();
-    public DeckOfCards currentDeck = new DeckOfCards();
 
     BenderGamblerBot(DefaultBotOptions botOptions) {
         super(botOptions, BOT_USERNAME);
+        DeckOfCards currentDeck = new DeckOfCards();
+        BlackJackGamers yourHand = new BlackJackGamers();
+        BlackJackGamers dilerHand = new BlackJackGamers();
         register(new BlackJackStart(yourHand, dilerHand, currentDeck));
         register(new TakeCardBlackJack(yourHand, dilerHand, currentDeck));
         register(new StopTakeCardBlackJack(yourHand, dilerHand, currentDeck));

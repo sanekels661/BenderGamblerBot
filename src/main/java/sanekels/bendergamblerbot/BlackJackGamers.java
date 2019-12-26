@@ -1,23 +1,23 @@
+package sanekels.bendergamblerbot;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlackJackGamers {
-    private List<DeckOfCards.PartsOfCard> currentHand = new ArrayList<>();
+    private List<TheCard> currentHand = new ArrayList<>();
+    private int intValueOfHand = 0;
 
-    List<DeckOfCards.PartsOfCard> AllCards() {
+    List<TheCard> AllCards() {
         return currentHand;
     }
 
-    void addCard(DeckOfCards.PartsOfCard newCard) {
+    void addCard(TheCard newCard) {
         currentHand.add(newCard);
+        intValueOfHand += newCard.value;
     }
 
     int intValueOfHand() {
-        int valueOfHand = 0;
-        for (int i = 0; i < currentHand.size(); i++) {
-            valueOfHand += currentHand.get(i).value;
-        }
-        return valueOfHand;
+        return intValueOfHand;
     }
 
     String stringValueOfHand() {
@@ -30,5 +30,6 @@ public class BlackJackGamers {
 
     void clearCards() {
         currentHand.clear();
+        intValueOfHand = 0;
     }
 }

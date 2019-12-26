@@ -1,3 +1,5 @@
+package sanekels.bendergamblerbot;
+
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -13,7 +15,7 @@ import java.util.List;
 public class BlackJackStart extends BotCommand {
 
     private static final String commandIdentifier = "jack";
-    private static final String description = "startGameBlackJack";
+    private static final String description = "start Game BlackJack";
     private BlackJackGamers yourHand;
     private BlackJackGamers dilerHand;
     private DeckOfCards currentDeck;
@@ -27,41 +29,20 @@ public class BlackJackStart extends BotCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-        currentDeck = new DeckOfCards();
+        currentDeck.refreshDeck();
         yourHand.clearCards();
         dilerHand.clearCards();
-        yourHand.addCard(currentDeck.TakeOneCard());
-        yourHand.addCard(currentDeck.TakeOneCard());
-        dilerHand.addCard(currentDeck.TakeOneCard());
+        yourHand.addCard(currentDeck.takeOneCard());
+        yourHand.addCard(currentDeck.takeOneCard());
+        dilerHand.addCard(currentDeck.takeOneCard());
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
-        answer.setReplyMarkup(getKeyboard());
+        answer.setReplyMarkup(new UsefulMethods().getKeyboard(commandIdentifier, yourHand));
         answer.setText("game started \n" + "card added, your points: " + yourHand.intValueOfHand() + "\n" + "diler cards: " + dilerHand.stringValueOfHand());
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-    }
-
-    private ReplyKeyboardMarkup getKeyboard() {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        for (DeckOfCards.PartsOfCard element : yourHand.AllCards()) {
-            keyboardFirstRow.add(element.suit + " " + element.name);
-        }
-        if (yourHand.intValueOfHand() > 21) {
-            keyboard.clear();
-        }
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add("/take card");
-        keyboardSecondRow.add("/exit");
-        keyboardSecondRow.add("/stop");
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        return replyKeyboardMarkup;
     }
 }
